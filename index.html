@@ -1,116 +1,122 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vòng quay may mắn Thỏ Ngọc</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('img/bgr.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .spin_wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-color: pink;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 1600px;
+            height: 900px;
+        }
+
+        .wheel-container img {
+            position: absolute;
+        }
+
+        #cirlce {
+            width: 100%;
+            height: auto;
+            transition: transform 4s ease-out;
+        }
+
+        #spiner {
+            width: 600px;
+            top: 51%;
+            left: 51%;
+            transform: translate(-50%, -50%);
+            animation: ZoomInOut 0.5s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes ZoomInOut {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            90% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    html {
-        overflow: hidden;
-    }
-    body {
-        background-image: url('img/bgr.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-    }
-    #spin_warpper {
-        display: flex;
-        justify-self: center;
-        align-items: center;
-        position: relative;
-        background-color: pink;
-        width: 100%;
-        height: 100%;
-    }
-    #cirlce {
-        rotate: 360deg;
-        transition: 3s;
-        width: 95%;
-    }
-    #spiner {
-        position: absolute;
-        top: 53.5%;   
-        left: 48.5%;
-        transform: translate(-50%, -50%);
-        width: 35%;
-        animation: ZoomInOut 0.5s infinite;
-        cursor: spiner;
-    }
-    .spin_wrapper img {
-        position: absolute;
-    }
-    @keyframes ZoomInOut {
-        0% {
-            transform: translate(-50%, -50%) scale(1);
-        }
-        50% {
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-        90% {
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-    }
-</style>
 <body>
-    <div class="spin_warpper">
-        <img id="cirlce" src="img/circle.png"/>
-        <img id="spiner" src="img/pointer.png"/>
+    <div class="spin_wrapper">
+        <div class="wheel-container">
+            <img id="cirlce" src="img/circle.png"/>
+            <img id="spiner" src="img/pointer.png"/>
+        </div>
     </div>
-</body>
-<script>
-    const prizes = [
-        { name: "Nồi chiên không dầu", weight: 1,  prizeAngle: 97},
-        { name: "Nồi cơm điện", weight: 3, prizeAngle: 42 },
-        { name: "Bộ ấm trà", weight: 7, prizeAngle: 15 },
-        { name: "Máy xay sinh tố", weight: 2, prizeAngle:345 },
-        { name: "Ấm siêu tốc", weight: 7, prizeAngle:159 },
-        { name: "Bình giữ nhiệt", weight: 10, prizeAngle: 193},
-        { name: "Gấu bông, đồ chơi", weight: 80, prizeAngle: 68 },
-        { name: "Chảo", weight: 5, prizeAngle:218 },
-        { name: "Đĩa, tô, chén", weight: 100, prizeAngle:126 },
-        { name: "Bộ đĩa chén", weight: 7, prizeAngle:247 },
-        { name: "Thố", weight: 100, prizeAngle:311 },
-        { name: "Xe chòi 3 bánh", weight: 5, prizeAngle: 286 }
-    ];
+    <script>
+        const prizes = [
+            { name: "Nồi chiên không dầu", weight: 1,  prizeAngle: 97},
+            { name: "Nồi cơm điện", weight: 3, prizeAngle: 42 },
+            { name: "Bộ ấm trà", weight: 7, prizeAngle: 15 },
+            { name: "Máy xay sinh tố", weight: 2, prizeAngle:345 },
+            { name: "Ấm siêu tốc", weight: 7, prizeAngle:159 },
+            { name: "Bình giữ nhiệt", weight: 10, prizeAngle: 193},
+            { name: "Gấu bông, đồ chơi", weight: 80, prizeAngle: 68 },
+            { name: "Chảo", weight: 5, prizeAngle:218 },
+            { name: "Đĩa, tô, chén", weight: 100, prizeAngle:126 },
+            { name: "Bộ đĩa chén", weight: 7, prizeAngle:247 },
+            { name: "Thố", weight: 100, prizeAngle:311 },
+            { name: "Xe chòi 3 bánh", weight: 5, prizeAngle: 286 }
+        ];
 
-    function getWeightedRandomIndex(items) {
-        const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
-        const rand = Math.random() * totalWeight;
-        let cumulative = 0;
-        for (let i = 0; i < items.length; i++) {
-            cumulative += items[i].weight;
-            if (rand < cumulative) return i;
+        function getWeightedRandomIndex(items) {
+            const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+            const rand = Math.random() * totalWeight;
+            let cumulative = 0;
+            for (let i = 0; i < items.length; i++) {
+                cumulative += items[i].weight;
+                if (rand < cumulative) return i;
+            }
         }
-    }
 
-    const spiner = document.getElementById("spiner");
-    const circle = document.getElementById("cirlce"); // chú ý id đang là "cirlce"
+        const spiner = document.getElementById("spiner");
+        const circle = document.getElementById("cirlce");
 
-    spiner.addEventListener("click", () => {
-        const selectedIndex = getWeightedRandomIndex(prizes);
-        const degreesPerPrize = 360 / prizes.length;
-        const extraSpins = 5;
-        const totalRotation = extraSpins * 360 + prizes[selectedIndex].prizeAngle;
+        spiner.addEventListener("click", () => {
+            const selectedIndex = getWeightedRandomIndex(prizes);
+            const extraSpins = 5;
+            const totalRotation = extraSpins * 360 + prizes[selectedIndex].prizeAngle;
 
-        circle.style.transition = "transform 4s ease-out";
-        circle.style.transform = `rotate(${totalRotation}deg)`;
+            circle.style.transform = `rotate(${totalRotation}deg)`;
 
-        // Hiện phần quà trúng sau khi xoay
-        setTimeout(() => {
-            alert(`Bạn trúng: ${prizes[selectedIndex].name}`);
-        }, 4000);
-    });
-</script>
-
+            setTimeout(() => {
+                alert(`Bạn trúng: ${prizes[selectedIndex].name}`);
+            }, 4000);
+        });
+    </script>
+</body>
 </html>
